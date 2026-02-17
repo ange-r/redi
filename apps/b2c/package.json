@@ -12,6 +12,7 @@
     "@crossmint/client-sdk-react-ui": "^2.6.17",
     "@redi/api-client": "workspace:^",
     "@redi/config": "workspace:^",
+    "@redi/crossmint": "workspace:^",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"
