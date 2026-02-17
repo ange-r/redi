@@ -5,6 +5,8 @@ const serverEnvSchema = z.object({
   WALLET_SERVICE_PORT: z.coerce.number().int().positive().default(4103),
   STELLAR_NETWORK: z.enum(["testnet", "mainnet"]).default("testnet"),
   STELLAR_HORIZON_URL: z.string().url().default("https://horizon-testnet.stellar.org"),
+  SOROBAN_BUFFER_CONTRACT_ID: z.string().min(1),  
+  SOROBAN_BRIDGE_CONTRACT_ID: z.string().min(1),  
 });
 
 const publicEnvSchema = z.object({
