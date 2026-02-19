@@ -72,7 +72,7 @@ export async function getWalletBalanceByEmail(
   };
 }
 
-  export async function createBridgePlan(
+export async function createBridgePlan(
   email: string,
   params: {
     merchantAddress: string;
@@ -130,3 +130,26 @@ export async function collectInstallment(
   });
 }
 
+export async function signTransaction(
+  email: string,
+  transactionXDR: string,
+  chain: SupportedChain = "stellar-testnet",
+): Promise<{ signedXDR: string; hash: string }> {
+  const client = getClient();
+  const wallet = await client.getOrCreateWallet({
+    chain: toSdkChain(chain),
+    signer: { type: "email", email },
+  });
+
+  const stellarWallet = StellarWallet.from(wallet);
+
+  const result = await stellarWallet.sendTransaction({
+    transaction: transactionXDR,
+    contractId: "",
+  });
+
+  return {
+    signedXDR: transactionXDR,
+    hash: result.hash,
+  };
+}
