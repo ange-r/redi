@@ -1,5 +1,6 @@
 import { getOrCreateWalletByEmail } from "@redi/crossmint";
 import { getServerEnv } from "@redi/config";
+import { createBufferClient } from "@redi/stellar-soroban";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -20,13 +21,19 @@ export async function GET(req: NextRequest) {
       env.STELLAR_NETWORK === "mainnet" ? "stellar" : "stellar-testnet"
     );
 
-    // TODO: call Buffer contract to get actual balance
-    // For now returns wallet address only
+    // Get balance from Buffer Contract
+    const bufferClient = createBufferClient();
+    const values = await bufferClient.getValues(wallet.address);
+
     return NextResponse.json({
       address: wallet.address,
       chain: wallet.chain,
+      balance: {
+        available: values.available,
+        protected: values.protected,
+        total: values.total,
+      }
     });
-
   } catch (error) {
     console.error("[/api/balance] error:", error);
     return NextResponse.json(
