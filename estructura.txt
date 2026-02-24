@@ -1,0 +1,152 @@
+.
+├── apps
+│   ├── b2c
+│   │   ├── eslint.config.mjs
+│   │   ├── next.config.ts
+│   │   ├── next-env.d.ts
+│   │   ├── package.json
+│   │   ├── postcss.config.mjs
+│   │   ├── public
+│   │   │   ├── file.svg
+│   │   │   ├── globe.svg
+│   │   │   ├── next.svg
+│   │   │   ├── vercel.svg
+│   │   │   └── window.svg
+│   │   ├── README.md
+│   │   ├── src
+│   │   │   ├── app
+│   │   │   └── components
+│   │   ├── tsconfig.json
+│   │   └── tsconfig.tsbuildinfo
+│   ├── landing
+│   │   ├── eslint.config.mjs
+│   │   ├── next.config.ts
+│   │   ├── next-env.d.ts
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   ├── file.svg
+│   │   │   ├── globe.svg
+│   │   │   ├── next.svg
+│   │   │   ├── vercel.svg
+│   │   │   └── window.svg
+│   │   ├── README.md
+│   │   ├── src
+│   │   │   └── app
+│   │   └── tsconfig.json
+│   ├── merchant
+│   │   ├── eslint.config.mjs
+│   │   ├── next.config.ts
+│   │   ├── next-env.d.ts
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   ├── file.svg
+│   │   │   ├── globe.svg
+│   │   │   ├── next.svg
+│   │   │   ├── vercel.svg
+│   │   │   └── window.svg
+│   │   ├── README.md
+│   │   ├── src
+│   │   │   └── app
+│   │   └── tsconfig.json
+│   └── pos
+│       ├── eslint.config.mjs
+│       ├── next.config.ts
+│       ├── next-env.d.ts
+│       ├── package.json
+│       ├── public
+│       │   ├── file.svg
+│       │   ├── globe.svg
+│       │   ├── next.svg
+│       │   ├── vercel.svg
+│       │   └── window.svg
+│       ├── README.md
+│       ├── src
+│       │   └── app
+│       └── tsconfig.json
+├── contracts
+│   └── soroban
+│       ├── bridge
+│       │   ├── Cargo.lock
+│       │   ├── Cargo.toml
+│       │   ├── README.md
+│       │   ├── src
+│       │   └── target
+│       └── buffer
+│           ├── Cargo.toml
+│           └── src
+├── docs
+│   └── contracts
+│       ├── bridge
+│       │   ├── bridge.md
+│       │   └── integration.md
+│       └── buffer
+│           ├── Buffer-contract-deployment-guide.md
+│           ├── buffer.rs
+│           └── Defindex-vault-creation-guide.md
+├── estructura.txt
+├── infra
+│   ├── scripts
+│   └── supabase
+├── package.json
+├── packages
+│   ├── api-client
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── config
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── crossmint
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── defindex
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── observability
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── shared
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── stellar-soroban
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   └── ui
+│       ├── package.json
+│       ├── src
+│       │   └── index.ts
+│       └── tsconfig.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── README.md
+├── schemas
+│   └── turbo.schema.json
+├── services
+│   ├── indexer
+│   ├── wallet-service
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── config
+│   │   │   ├── index.ts
+│   │   │   ├── modules
+│   │   │   └── routes
+│   │   └── tsconfig.json
+│   └── workers
+├── test-buffer.ts
+├── tsconfig.base.json
+└── turbo.json
+
+59 directories, 91 files
