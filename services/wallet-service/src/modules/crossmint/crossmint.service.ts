@@ -32,8 +32,8 @@ export class CrossmintService {
     };
   }
 
-  // GET primero — soporta wallet existente con cualquier signer (email o api-key)
-  // Solo crea si no existe — idempotente
+  // GET first — supports an existing wallet with any signer (email or api‑key)
+  // only creates a new one if it doesn’t already exist (idempotent).
   async createWalletForUser(email: string): Promise<CreateWalletResponse> {
     const walletLocator = encodeURIComponent(`email:${email}:stellar`);
 
@@ -95,6 +95,33 @@ export class CrossmintService {
 
     return data;
   }
+
+/**
+ * Retrieves the G‑account address (user) associated with the smart wallet.
+ * This account is the one that can receive friendbot funds.
+ */
+async getUserAccountAddress(email: string): Promise<string> {
+  const walletLocator = encodeURIComponent(`email:${email}:stellar`);
+  
+  const response = await fetch(
+    `${this.baseUrl}/api/2025-06-09/wallets/${walletLocator}`,
+    { headers: this.headers }
+  );
+
+  const data = (await response.json()) as Record<string, unknown>;
+
+  if (!response.ok) {
+    throw new Error(`[CrossmintService] getUserAccountAddress failed: ${JSON.stringify(data)}`);
+  }
+
+    // The G‑account is stored in config.adminSigner.address
+    const adminSigner = (data.config as any)?.adminSigner;
+    if (!adminSigner?.address) {
+      throw new Error('[CrossmintService] No G-account associated with this wallet was found');
+    }
+
+  return adminSigner.address as string;
+}
 
   async signAndSubmitTransaction(
     request: SignTransactionRequest,
