@@ -196,16 +196,24 @@ export class OnboardingService {
     };
   }
 
-  private async createWallet(userId: string, email: string): Promise<void> {
-    console.info(`[OnboardingService] [1/2] Creating Crossmint wallet for user ${userId}`);
+private async createWallet(userId: string, email: string): Promise<void> {
+  console.info(`[OnboardingService] [1/2] Creating Crossmint wallet for user ${userId}`);
 
-    const wallet = await this.crossmint.createWalletForUser(email);
+  // 1. Create the wallet
+  const wallet = await this.crossmint.createWalletForUser(email);
+  console.log(`[OnboardingService] STELLAR_NETWORK = ${process.env.STELLAR_NETWORK}`);
 
-    await this.supabase.updateUserOnboardingStatus(userId, "WALLET_CREATED", {
-      stellar_address: wallet.address,
-      crossmint_wallet_id: wallet.walletId,
-    });
+  // 2. Obtain G account (if it fails, an error is logged to console)
+  const cuentaG = await this.crossmint.getUserAccountAddress(email);
+  console.log(`[OnboardingService] Cuenta G obtenida: ${cuentaG}`);
 
-    console.info(`[OnboardingService] Wallet created: ${wallet.address}`);
-  }
+  // 3. Save in Supabase
+  await this.supabase.updateUserOnboardingStatus(userId, "WALLET_CREATED", {
+    stellar_address: wallet.address,
+    user_g_address: cuentaG,
+    crossmint_wallet_id: wallet.walletId,
+  });
+
+  console.info(`[OnboardingService] Wallet created: ${wallet.address}`);
+}
 }
