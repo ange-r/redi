@@ -2,6 +2,7 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 export interface BufferOnboardingData {
   stellar_address?: string;
+  user_g_address?: string | null;    // ← New field for G address, optional and can be null
   crossmint_wallet_id?: string;
   defindex_vault_address?: string;
   buffer_contract_address?: string;
