@@ -203,11 +203,26 @@ private async createWallet(userId: string, email: string): Promise<void> {
   const wallet = await this.crossmint.createWalletForUser(email);
   console.log(`[OnboardingService] STELLAR_NETWORK = ${process.env.STELLAR_NETWORK}`);
 
-  // 2. Obtain G account (if it fails, an error is logged to console)
+  // 2. Obtain G account
   const cuentaG = await this.crossmint.getUserAccountAddress(email);
   console.log(`[OnboardingService] Cuenta G obtenida: ${cuentaG}`);
 
-  // 3. Save in Supabase
+// 3. Fund G account with Friendbot (testnet only)
+  if ((process.env.STELLAR_NETWORK ?? "testnet") === "testnet") {
+    try {
+      const friendbotUrl = `https://friendbot.stellar.org?addr=${encodeURIComponent(cuentaG)}`;
+      const funded = await fetch(friendbotUrl);
+      if (funded.ok) {
+        console.info(`[OnboardingService] Funded G account via Friendbot: ${cuentaG}`);
+      } else {
+        // 409 means already funded — that's fine
+        console.info(`[OnboardingService] Friendbot response ${funded.status} for ${cuentaG} — may already be funded`);
+      }
+    } catch (err) {
+      console.warn(`[OnboardingService] Friendbot failed (non-fatal): ${err}`);
+    }
+  }
+  // 4. Save in Supabase
   await this.supabase.updateUserOnboardingStatus(userId, "WALLET_CREATED", {
     stellar_address: wallet.address,
     user_g_address: cuentaG,

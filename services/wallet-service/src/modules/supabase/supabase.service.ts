@@ -84,21 +84,34 @@ export class SupabaseService {
       throw new Error(`[SupabaseService] upsertUser failed for ${userId}: ${error.message}`);
     }
 
-    return this.getUser(userId);
+     return this.getUser(userId);
   }
 
   async getUser(userId: string): Promise<Record<string, unknown>> {
     const { data, error } = await this.client
-      .from("profiles")
+      .from("profiles")  
       .select("*")
       .eq("id", userId)
       .single();
 
     if (error) {
-      throw new Error(`[SupabaseService] getUser failed for ${userId}: ${error.message}`);
+       throw new Error(`[SupabaseService] getUser failed for ${userId}: ${error.message}`);
+    }
+  
+    return data as Record<string, unknown>;
+  }
+
+    async getUserByEmail(email: string): Promise<any[]> {
+    const { data, error } = await this.client
+      .from("profiles")
+      .select("*")
+      .eq("email", email);
+
+    if (error) {
+      throw new Error(`[SupabaseService] getUserByEmail failed: ${error.message}`);
     }
 
-    return data as Record<string, unknown>;
+    return data ?? [];
   }
 
   async getUserBufferConfig(userId: string): Promise<UserBufferConfig> {

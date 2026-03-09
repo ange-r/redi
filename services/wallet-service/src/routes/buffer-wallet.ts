@@ -63,6 +63,7 @@ export function createBufferWalletRouter(
 
   router.post("/withdraw/prepare", (req, res) => bufferController.prepareWithdraw(req, res));
   router.post("/withdraw/submit", (req, res) => bufferController.submitWithdraw(req, res));
-
+  
+  router.post("/fund", (req, res) => bufferController.fundWallet(req, res));
   return router;
 }

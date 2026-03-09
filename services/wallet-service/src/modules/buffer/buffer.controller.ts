@@ -266,4 +266,41 @@ export class BufferController {
       this.sendError(res, 500, "WITHDRAW_CONFIRM_FAILED", "Failed to confirm withdraw transaction");
     }
   }
+
+  async fundWallet(req: Request, res: Response): Promise<void> {
+      try {
+        const { email } = req.body;
+
+        if (!email || typeof email !== "string") {
+          this.sendError(res, 400, "INVALID_REQUEST", "Email is required");
+          return;
+        }
+
+        const users = await this.supabaseService.getUserByEmail(email);
+        if (users.length === 0) {
+          this.sendError(res, 404, "USER_NOT_FOUND", "User not found");
+          return;
+        }
+
+        const user = users[0];
+        const gAddress = user.user_g_address;
+
+        if (!gAddress) {
+          this.sendError(res, 409, "ONBOARDING_INCOMPLETE", "User has no G address. Complete onboarding first.");
+          return;
+        }
+
+        await this.bufferService.fundWalletWithFriendbot(gAddress);
+
+        res.status(200).json({
+          success: true,
+          message: "Wallet funded successfully",
+          address: gAddress,
+        });
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Unknown error";
+        console.error(`[BufferController] fundWallet error: ${message}`);
+        this.sendError(res, 500, "FUND_WALLET_FAILED", "Failed to fund wallet");
+      }
+    }
 }

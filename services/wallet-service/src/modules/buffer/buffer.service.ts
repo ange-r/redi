@@ -77,6 +77,25 @@ export class BufferService {
     };
   }
 
+  async fundWalletWithFriendbot(accountAddress: string): Promise<boolean> {
+    try {
+      const response = await fetch(
+      `https://friendbot.stellar.org?addr=${encodeURIComponent(accountAddress)}`
+      );
+    
+      if (!response.ok) {
+        throw new Error(`Friendbot failed: ${response.status}`);
+      }
+    
+      console.info(`[BufferService] Funded ${accountAddress} with Friendbot`);
+      return true;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      console.error(`[BufferService] Friendbot error: ${message}`);
+      throw error;
+    }
+  }
+
   async buildDepositTransaction(
     bufferContractId: string,
     userAddress: string,
