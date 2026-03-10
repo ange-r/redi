@@ -225,7 +225,6 @@ private async createWallet(userId: string, email: string): Promise<void> {
   // 4. Save in Supabase
   await this.supabase.updateUserOnboardingStatus(userId, "WALLET_CREATED", {
     stellar_address: wallet.address,
-    user_g_address: cuentaG,
     crossmint_wallet_id: wallet.walletId,
   });
 
