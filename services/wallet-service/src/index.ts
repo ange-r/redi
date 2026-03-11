@@ -37,6 +37,7 @@ const onboardingController = new OnboardingController(onboardingService, supabas
 
 const env = getServerEnv();
 const app = express();
+const port = process.env.PORT ?? env.WALLET_SERVICE_PORT;
 
 app.use(helmet());
 app.use(cors({ origin: "http://localhost:3000", credentials: false }));
@@ -66,6 +67,6 @@ app.get("/health", (_req, res) => {
 app.use("/api/buffer", createBufferWalletRouter(bufferController, onboardingController, crossmintService));
 app.use("/api/buffer", stellarWalletRoutes);
 
-app.listen(env.WALLET_SERVICE_PORT, () => {
-  process.stdout.write(`wallet-service listening on http://localhost:${env.WALLET_SERVICE_PORT}\n`);
+app.listen(port, () => {
+  process.stdout.write(`wallet-service listening on http://localhost:${port}\n`);
 });
